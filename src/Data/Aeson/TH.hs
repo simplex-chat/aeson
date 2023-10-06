@@ -414,7 +414,7 @@ sumToValue letInsert target opts multiCons nullary conName value pairs
                 content = pairs contentsFieldName
             in fromPairsE target $
               if nullary then tag else infixApp tag [|(Monoid.<>)|] content
-          ObjectWithSingleField ->
+          ObjectWithSingleField {tagFieldName_} ->
             objectE letInsert target [(conString opts conName, value)]
           UntaggedValue | nullary -> conStr target opts conName
           UntaggedValue -> value
@@ -720,7 +720,7 @@ consFromJSON jc tName opts instTys cons = do
           TaggedObject {tagFieldName, contentsFieldName} ->
             parseObject $ parseTaggedObject tvMap tagFieldName contentsFieldName
           UntaggedValue -> error "UntaggedValue: Should be handled already"
-          ObjectWithSingleField ->
+          ObjectWithSingleField {tagFieldName_} ->
             parseObject $ parseObjectWithSingleField tvMap
           TwoElemArray ->
             [ do arr <- newName "array"

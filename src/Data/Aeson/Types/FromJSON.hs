@@ -1215,17 +1215,29 @@ parseNonAllNullarySum p@(tname :* opts :* _) =
               ", but found tag " ++ show tag
           cnames_ = unTagged2 (constructorTags (constructorTagModifier opts) :: Tagged2 f [String])
 
-      ObjectWithSingleField ->
+      ObjectWithSingleField {..} ->
           withObject tname $ \obj -> case KM.toList obj of
-              [(tag, v)] -> maybe (badTag tag) (<?> Key tag) $
-                  parsePair (tag :* p) v
-              _ -> contextType tname . fail $
-                  "expected an Object with a single pair, but found " ++
-                  show (KM.size obj) ++ " pairs"
+              [(tag, v)] -> parseTag tag v
+              [(tag1, v1), (tag2, v2)] -> case tagFieldName_ of
+                  Just tagFieldName
+                      | tfn == tag1 && v1 == String (Key.toText tag2) -> parseTag tag2 v2
+                      | tfn == tag2 && v2 == String (Key.toText tag1) -> parseTag tag1 v1
+                      | otherwise -> badTags tag1 tag2 tagFieldName
+                    where
+                      tfn = Key.fromString tagFieldName
+                  Nothing -> failObj_ obj
+              _ -> failObj_ obj
         where
+          parseTag tag v = maybe (badTag tag) (<?> Key tag) $ parsePair (tag :* p) v
+          failObj_ obj = contextType tname . fail $
+              "expected an Object with a single pair, but found " ++
+              show (KM.size obj) ++ " pairs"
           badTag tag = failWith_ $ \cnames ->
               "expected an Object with a single pair where the tag is one of " ++
               show cnames ++ ", but found tag " ++ show tag
+          badTags tag1 tag2 tagFieldName = failWith_ $ \cnames ->
+              "expected an Object with a two pairs where the constructor tag is one of " ++
+              show cnames ++ "and the object tag is " ++ tagFieldName ++ ", but found tags " ++ show tag1 ++ " and " ++ show tag2
 
       TwoElemArray ->
           withArray tname $ \arr -> case V.length arr of

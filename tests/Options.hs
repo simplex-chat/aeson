@@ -31,20 +31,20 @@ optsTaggedObject = optsDefault
 optsObjectWithSingleField :: Options
 optsObjectWithSingleField = optsDefault
                             { allNullaryToStringTag = False
-                            , sumEncoding           = ObjectWithSingleField
+                            , sumEncoding           = ObjectWithSingleField Nothing
                             }
 
 optsOWSFRejectUnknown :: Options
 optsOWSFRejectUnknown = optsDefault
                         { allNullaryToStringTag = False
                         , rejectUnknownFields = True
-                        , sumEncoding           = ObjectWithSingleField
+                        , sumEncoding           = ObjectWithSingleField Nothing
                         }
 
 optsOWSFNullaryToObject :: Options
 optsOWSFNullaryToObject = optsDefault
                           { allNullaryToStringTag = False
-                          , sumEncoding           = ObjectWithSingleField
+                          , sumEncoding           = ObjectWithSingleField Nothing
                           , nullaryToObject       = True
                           }
 
@@ -52,7 +52,7 @@ optsOWSFNullaryToObjectRejectUnknown :: Options
 optsOWSFNullaryToObjectRejectUnknown = optsDefault
                                        { allNullaryToStringTag = False
                                        , rejectUnknownFields = True
-                                       , sumEncoding           = ObjectWithSingleField
+                                       , sumEncoding           = ObjectWithSingleField Nothing
                                        , nullaryToObject       = True
                                        }
 

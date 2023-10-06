@@ -967,7 +967,7 @@ nonAllNullarySumToJSON opts targs =
       TaggedObject{..}      ->
         taggedObject opts targs (Key.fromString tagFieldName) (Key.fromString contentsFieldName)
 
-      ObjectWithSingleField ->
+      ObjectWithSingleField{..} ->
         (unTagged :: Tagged ObjectWithSingleField enc -> enc)
           . sumToJSON' opts targs
 
