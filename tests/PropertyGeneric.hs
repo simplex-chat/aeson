@@ -32,7 +32,8 @@ genericTests =
               testProperty "string" (toParseJSON gNullaryParseJSONString gNullaryToJSONString)
             , testProperty "2ElemArray" (toParseJSON gNullaryParseJSON2ElemArray gNullaryToJSON2ElemArray)
             , testProperty "TaggedObject" (toParseJSON gNullaryParseJSONTaggedObject gNullaryToJSONTaggedObject)
-            , testProperty "ObjectWithSingleField" (toParseJSON gNullaryParseJSONObjectWithSingleField gNullaryToJSONObjectWithSingleField)
+            , testProperty "ObjectWithSingleField" (toParseJSON gNullaryParseJSONObjectWithSingleFieldTagged gNullaryToJSONObjectWithSingleFieldTagged)
+            , testProperty "ObjectWithSingleField Tagged" (toParseJSON gNullaryParseJSONObjectWithSingleFieldTagged gNullaryToJSONObjectWithSingleFieldTagged)
             ]
         ]
       , testGroup "EitherTextInt" [
@@ -47,10 +48,12 @@ genericTests =
             testProperty "2ElemArray" (toParseJSON gSomeTypeParseJSON2ElemArray gSomeTypeToJSON2ElemArray)
           , testProperty "TaggedObject" (toParseJSON gSomeTypeParseJSONTaggedObject gSomeTypeToJSONTaggedObject)
           , testProperty "ObjectWithSingleField" (toParseJSON gSomeTypeParseJSONObjectWithSingleField gSomeTypeToJSONObjectWithSingleField)
+          , testProperty "ObjectWithSingleField Tagged" (toParseJSON gSomeTypeParseJSONObjectWithSingleFieldTagged gSomeTypeToJSONObjectWithSingleFieldTagged)
 
           , testProperty "2ElemArray unary" (toParseJSON1 gSomeTypeLiftParseJSON2ElemArray gSomeTypeLiftToJSON2ElemArray)
           , testProperty "TaggedObject unary" (toParseJSON1 gSomeTypeLiftParseJSONTaggedObject gSomeTypeLiftToJSONTaggedObject)
           , testProperty "ObjectWithSingleField unary" (toParseJSON1 gSomeTypeLiftParseJSONObjectWithSingleField gSomeTypeLiftToJSONObjectWithSingleField)
+          , testProperty "ObjectWithSingleField Tagged unary" (toParseJSON1 gSomeTypeLiftParseJSONObjectWithSingleFieldTagged gSomeTypeLiftToJSONObjectWithSingleFieldTagged)
           ]
         ]
       , testGroup "OneConstructor" [
