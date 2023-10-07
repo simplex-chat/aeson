@@ -34,6 +34,7 @@ templateHaskellTests =
             , testProperty "2ElemArray" (toParseJSON thNullaryParseJSON2ElemArray thNullaryToJSON2ElemArray)
             , testProperty "TaggedObject" (toParseJSON thNullaryParseJSONTaggedObject thNullaryToJSONTaggedObject)
             , testProperty "ObjectWithSingleField" (toParseJSON thNullaryParseJSONObjectWithSingleField thNullaryToJSONObjectWithSingleField)
+            , testProperty "ObjectWithSingleField Tagged" (toParseJSON thNullaryParseJSONObjectWithSingleField thNullaryToJSONObjectWithSingleField)
             ]
         ]
       , testGroup "EitherTextInt" [
@@ -48,10 +49,12 @@ templateHaskellTests =
             testProperty "2ElemArray" (toParseJSON thSomeTypeParseJSON2ElemArray thSomeTypeToJSON2ElemArray)
           , testProperty "TaggedObject" (toParseJSON thSomeTypeParseJSONTaggedObject thSomeTypeToJSONTaggedObject)
           , testProperty "ObjectWithSingleField" (toParseJSON thSomeTypeParseJSONObjectWithSingleField thSomeTypeToJSONObjectWithSingleField)
+          , testProperty "ObjectWithSingleField Tagged" (toParseJSON thSomeTypeParseJSONObjectWithSingleFieldTagged thSomeTypeToJSONObjectWithSingleFieldTagged)
 
           , testProperty "2ElemArray unary" (toParseJSON1 thSomeTypeLiftParseJSON2ElemArray thSomeTypeLiftToJSON2ElemArray)
           , testProperty "TaggedObject unary" (toParseJSON1 thSomeTypeLiftParseJSONTaggedObject thSomeTypeLiftToJSONTaggedObject)
           , testProperty "ObjectWithSingleField unary" (toParseJSON1 thSomeTypeLiftParseJSONObjectWithSingleField thSomeTypeLiftToJSONObjectWithSingleField)
+          , testProperty "ObjectWithSingleField Tagged unary" (toParseJSON1 thSomeTypeLiftParseJSONObjectWithSingleFieldTagged thSomeTypeLiftToJSONObjectWithSingleFieldTagged)
 
           ]
         ]
