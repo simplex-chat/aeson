@@ -62,6 +62,10 @@ nullaryConstructors =
   , ISuccess C1 @=? parse gNullaryParseJSONOWSFNullaryToObject    (dec  "{\"c1\":{}}")
   , ISuccess C1 @=? parse thNullaryParseJSONOWSFNullaryToObject   (dec  "{\"c1\":{\"extra\":1}}")
   , ISuccess C1 @=? parse gNullaryParseJSONOWSFNullaryToObject    (dec  "{\"c1\":{\"extra\":1}}")
+  , thErrTag @=? parse thNullaryParseJSONOWSFNullaryToObject      (dec  "{\"c1\":{},\"_tag\":true}")
+  , gErrTag @=? parse gNullaryParseJSONOWSFNullaryToObject        (dec  "{\"c1\":{},\"_tag\":true}")
+  , ISuccess C1 @=? parse thNullaryParseJSONObjectWithSingleFieldTagged   (dec  "{\"c1\":[],\"_tag\":true}")
+  , ISuccess C1 @=? parse gNullaryParseJSONObjectWithSingleFieldTagged    (dec  "{\"c1\":[],\"_tag\":true}")
   -- Make sure that the old `"contents" : []` is still allowed (and also `"contents" : {}`)
   , ISuccess C1 @=? parse thNullaryParseJSONTaggedObject          (dec "{\"tag\":\"c1\",\"contents\":[]}")
   , ISuccess C1 @=? parse gNullaryParseJSONTaggedObject           (dec "{\"tag\":\"c1\",\"contents\":[]}")
@@ -97,3 +101,5 @@ nullaryConstructors =
     gErrArray = IError [Key "c1"] "parsing Types.Nullary(C1) failed, expected Object, but encountered Array"
     thErrUnknown = IError [] "When parsing the constructor C1 of type Types.Nullary expected an empty Object but got Object of size 1."
     gErrUnknown = IError [Key "c1"] "parsing Types.Nullary(C1) failed, expected an empty Object but encountered Object of size 1"
+    thErrTag = IError [] "When parsing Types.Nullary expected an Object with a single tag/contents pair but got 2 pairs."
+    gErrTag = IError [] "parsing Types.Nullary failed, expected an Object with a single pair, but found 2 pairs"

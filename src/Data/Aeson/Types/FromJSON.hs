@@ -6,6 +6,7 @@
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE GADTs #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE NamedFieldPuns #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE RecordWildCards #-}
@@ -1215,14 +1216,26 @@ parseNonAllNullarySum p@(tname :* opts :* _) =
               ", but found tag " ++ show tag
           cnames_ = unTagged2 (constructorTags (constructorTagModifier opts) :: Tagged2 f [String])
 
-      ObjectWithSingleField ->
+      ObjectWithSingleField {tagFieldName_} ->
           withObject tname $ \obj -> case KM.toList obj of
-              [(tag, v)] -> maybe (badTag tag) (<?> Key tag) $
-                  parsePair (tag :* p) v
-              _ -> contextType tname . fail $
-                  "expected an Object with a single pair, but found " ++
-                  show (KM.size obj) ++ " pairs"
+              [(tag, v)] -> parseTag tag v
+              [(tag1, v1), (tag2, v2)] -> case tagFieldName_ of
+                  Just tfn
+                      | owsfTag tag1 v1 -> parseTag tag2 v2
+                      | owsfTag tag2 v2 -> parseTag tag1 v1
+                      | otherwise ->
+                            contextType tname . fail $
+                                "expected an Object with a single pair and an optional tag " <> tfn <> ", but found " ++
+                                show (KM.size obj) ++ " pairs"
+                    where
+                      owsfTag tag v = Key.toString tag == tfn && v == Bool True
+                  Nothing -> badObj obj
+              _ -> badObj obj
         where
+          parseTag tag v = maybe (badTag tag) (<?> Key tag) $ parsePair (tag :* p) v
+          badObj obj = contextType tname . fail $
+              "expected an Object with a single pair, but found " ++
+              show (KM.size obj) ++ " pairs"
           badTag tag = failWith_ $ \cnames ->
               "expected an Object with a single pair where the tag is one of " ++
               show cnames ++ ", but found tag " ++ show tag
