@@ -61,6 +61,16 @@ thNullaryParseJSONObjectWithSingleField :: Value -> Parser Nullary
 thNullaryParseJSONObjectWithSingleField = $(mkParseJSON optsObjectWithSingleField ''Nullary)
 
 
+thNullaryToJSONObjectWithSingleFieldTagged :: Nullary -> Value
+thNullaryToJSONObjectWithSingleFieldTagged = $(mkToJSON optsObjectWithSingleFieldTagged ''Nullary)
+
+thNullaryToEncodingObjectWithSingleFieldTagged :: Nullary -> Encoding
+thNullaryToEncodingObjectWithSingleFieldTagged = $(mkToEncoding optsObjectWithSingleFieldTagged ''Nullary)
+
+thNullaryParseJSONObjectWithSingleFieldTagged :: Value -> Parser Nullary
+thNullaryParseJSONObjectWithSingleFieldTagged = $(mkParseJSON optsObjectWithSingleFieldTagged ''Nullary)
+
+
 thNullaryToJSONOWSFRejectUnknown :: Nullary -> Value
 thNullaryToJSONOWSFRejectUnknown = $(mkToJSON optsOWSFRejectUnknown ''Nullary)
 
@@ -129,6 +139,16 @@ gNullaryToEncodingObjectWithSingleField = genericToEncoding optsObjectWithSingle
 
 gNullaryParseJSONObjectWithSingleField :: Value -> Parser Nullary
 gNullaryParseJSONObjectWithSingleField = genericParseJSON optsObjectWithSingleField
+
+
+gNullaryToJSONObjectWithSingleFieldTagged :: Nullary -> Value
+gNullaryToJSONObjectWithSingleFieldTagged = genericToJSON optsObjectWithSingleFieldTagged
+
+gNullaryToEncodingObjectWithSingleFieldTagged :: Nullary -> Encoding
+gNullaryToEncodingObjectWithSingleFieldTagged = genericToEncoding optsObjectWithSingleFieldTagged
+
+gNullaryParseJSONObjectWithSingleFieldTagged :: Value -> Parser Nullary
+gNullaryParseJSONObjectWithSingleFieldTagged = genericParseJSON optsObjectWithSingleFieldTagged
 
 
 gNullaryToJSONOWSFRejectUnknown :: Nullary -> Value
@@ -243,6 +263,22 @@ thSomeTypeLiftParseJSONObjectWithSingleField :: LiftParseJSON SomeType a
 thSomeTypeLiftParseJSONObjectWithSingleField = $(mkLiftParseJSON optsObjectWithSingleField ''SomeType)
 
 
+thSomeTypeToJSONObjectWithSingleFieldTagged :: SomeType Int -> Value
+thSomeTypeToJSONObjectWithSingleFieldTagged = $(mkToJSON optsObjectWithSingleFieldTagged ''SomeType)
+
+thSomeTypeToEncodingObjectWithSingleFieldTagged :: SomeType Int -> Encoding
+thSomeTypeToEncodingObjectWithSingleFieldTagged = $(mkToEncoding optsObjectWithSingleFieldTagged ''SomeType)
+
+thSomeTypeParseJSONObjectWithSingleFieldTagged :: Value -> Parser (SomeType Int)
+thSomeTypeParseJSONObjectWithSingleFieldTagged = $(mkParseJSON optsObjectWithSingleFieldTagged ''SomeType)
+
+thSomeTypeLiftToJSONObjectWithSingleFieldTagged :: LiftToJSON SomeType a
+thSomeTypeLiftToJSONObjectWithSingleFieldTagged = $(mkLiftToJSON optsObjectWithSingleFieldTagged ''SomeType)
+
+thSomeTypeLiftParseJSONObjectWithSingleFieldTagged :: LiftParseJSON SomeType a
+thSomeTypeLiftParseJSONObjectWithSingleFieldTagged = $(mkLiftParseJSON optsObjectWithSingleFieldTagged ''SomeType)
+
+
 gSomeTypeToJSON2ElemArray :: SomeType Int -> Value
 gSomeTypeToJSON2ElemArray = genericToJSON opts2ElemArray
 
@@ -298,6 +334,22 @@ gSomeTypeLiftToJSONObjectWithSingleField = genericLiftToJSON optsObjectWithSingl
 
 gSomeTypeLiftParseJSONObjectWithSingleField :: LiftParseJSON SomeType a
 gSomeTypeLiftParseJSONObjectWithSingleField = genericLiftParseJSON optsObjectWithSingleField
+
+
+gSomeTypeToJSONObjectWithSingleFieldTagged :: SomeType Int -> Value
+gSomeTypeToJSONObjectWithSingleFieldTagged = genericToJSON optsObjectWithSingleFieldTagged
+
+gSomeTypeToEncodingObjectWithSingleFieldTagged :: SomeType Int -> Encoding
+gSomeTypeToEncodingObjectWithSingleFieldTagged = genericToEncoding optsObjectWithSingleFieldTagged
+
+gSomeTypeParseJSONObjectWithSingleFieldTagged :: Value -> Parser (SomeType Int)
+gSomeTypeParseJSONObjectWithSingleFieldTagged = genericParseJSON optsObjectWithSingleFieldTagged
+
+gSomeTypeLiftToJSONObjectWithSingleFieldTagged :: LiftToJSON SomeType a
+gSomeTypeLiftToJSONObjectWithSingleFieldTagged = genericLiftToJSON optsObjectWithSingleFieldTagged
+
+gSomeTypeLiftParseJSONObjectWithSingleFieldTagged :: LiftParseJSON SomeType a
+gSomeTypeLiftParseJSONObjectWithSingleFieldTagged = genericLiftParseJSON optsObjectWithSingleFieldTagged
 
 
 gSomeTypeToJSONOmitNothingFields :: SomeType Int -> Value

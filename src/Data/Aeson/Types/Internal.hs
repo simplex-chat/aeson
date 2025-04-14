@@ -792,7 +792,7 @@ data SumEncoding =
     --
     -- /Note:/ Only the last error is kept when decoding, so in the case of
     -- malformed JSON, only an error for the last constructor will be reported.
-  | ObjectWithSingleField
+  | ObjectWithSingleField {tagFieldName_ :: Maybe String}
     -- ^ A constructor will be encoded to an object with a single
     -- field named after the constructor tag (modified by the
     -- 'constructorTagModifier') which maps to the encoded contents of
