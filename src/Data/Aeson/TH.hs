@@ -124,13 +124,14 @@ import Data.Aeson.Key (Key)
 import qualified Data.Aeson.Key as Key
 import qualified Data.Aeson.KeyMap as KM
 import Data.Foldable (foldr')
-import Data.List (genericLength, intercalate, union)
+import Data.List (genericLength, intercalate, sortOn, union)
 import Data.List.NonEmpty ((<|), NonEmpty((:|)))
 import Data.Map (Map)
 import qualified Data.Monoid as Monoid
 import Data.Set (Set)
 import Language.Haskell.TH hiding (Arity)
 import Language.Haskell.TH.Datatype
+import qualified Language.Haskell.TH.Syntax as THS
 import Text.Printf (printf)
 import qualified Data.Aeson.Encoding.Internal as E
 import qualified Data.List.NonEmpty as NE (length, reverse)
@@ -461,8 +462,10 @@ argsToValue letInsert target jc tvMap opts multiCons
 
         argTys' <- mapM resolveTypeSynonyms argTys
         args <- newNameList "arg" $ length argTys'
-        let argCons = zip3 (map varE args) argTys' fields
-
+        let argCons_ = zip3 (map varE args) argTys' fields
+            argCons
+              | sortRecordFields opts = sortOn (\(_, _, THS.Name (THS.OccName name) _) -> name) argCons_
+              | otherwise = argCons_
             toPair (arg, argTy, fld) =
               let fieldName = fieldLabel opts fld
                   toValue = dispatchToJSON target jc conName tvMap argTy
