@@ -281,6 +281,7 @@ showOptions =
         ++ ", nullaryToObject = False"
         ++ ", omitNothingFields = False"
         ++ ", allowOmittedFields = True"
+        ++ ", sortRecordFields = False"
         ++ ", sumEncoding = TaggedObject {tagFieldName = \"tag\", contentsFieldName = \"contents\"}"
         ++ ", unwrapUnaryRecords = False"
         ++ ", tagSingleConstructors = False"

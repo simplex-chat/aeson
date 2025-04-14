@@ -59,6 +59,7 @@ module Data.Aeson.Types.Internal
         , nullaryToObject
         , omitNothingFields
         , allowOmittedFields
+        , sortRecordFields
         , sumEncoding
         , unwrapUnaryRecords
         , tagSingleConstructors
@@ -733,6 +734,11 @@ data Options = Options
       -- ^ If 'True', missing fields of a record will be filled
       -- with 'omittedField' values (if they are 'Just').
       -- If 'False', all fields will required to present in the record object.
+    , sortRecordFields :: Bool
+      -- ^ If 'True, fields will be sorted alphabetically in record encodings.
+      -- This is useful for comparing JSON encodings
+      -- or when the whole or some parts of JSON encoding needs to be signed,
+      -- to avoid multi-stage encoding/decoding for signing and signature verification.
     , sumEncoding :: SumEncoding
       -- ^ Specifies how to encode constructors of a sum datatype.
     , unwrapUnaryRecords :: Bool
@@ -748,7 +754,7 @@ data Options = Options
     }
 
 instance Show Options where
-  show (Options f c a n o q s u t r) =
+  show (Options f c a n o q d s u t r) =
        "Options {"
     ++ intercalate ", "
       [ "fieldLabelModifier =~ " ++ show (f "exampleField")
@@ -757,6 +763,7 @@ instance Show Options where
       , "nullaryToObject = " ++ show n
       , "omitNothingFields = " ++ show o
       , "allowOmittedFields = " ++ show q
+      , "sortRecordFields = " ++ show d
       , "sumEncoding = " ++ show s
       , "unwrapUnaryRecords = " ++ show u
       , "tagSingleConstructors = " ++ show t
@@ -854,6 +861,7 @@ defaultOptions = Options
                  , nullaryToObject         = False
                  , omitNothingFields       = False
                  , allowOmittedFields      = True
+                 , sortRecordFields        = False
                  , sumEncoding             = defaultTaggedObject
                  , unwrapUnaryRecords      = False
                  , tagSingleConstructors   = False

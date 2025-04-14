@@ -145,6 +145,7 @@ module Data.Aeson.Types
     , nullaryToObject
     , omitNothingFields
     , allowOmittedFields
+    , sortRecordFields
     , sumEncoding
     , unwrapUnaryRecords
     , tagSingleConstructors
